@@ -23,7 +23,7 @@ class HomePage extends StatelessWidget {
 
   Future<UserModel?> getDataUser() async {
     var response = await http.get(
-      Uri.parse('https://reqres.in/api/users/2'),
+      Uri.parse('https://reqres.in/api/users/4'),
       headers: {'x-api-key': 'reqres-free-v1'},
     );
 
@@ -35,13 +35,7 @@ class HomePage extends StatelessWidget {
       print(response.body);
       Map<String, dynamic> data =
           (json.decode(response.body) as Map<String, dynamic>)['data'];
-      return UserModel(
-        id: data['id'],
-        email: data['email'],
-        firstName: data['firstName'],
-        lastName: data['lastName'],
-        avatar: data['avatar'],
-      );
+      return UserModel.fromMap(data);
     }
   }
 
@@ -99,6 +93,16 @@ class UserModel {
     required this.lastName,
     required this.avatar,
   });
+
+  factory UserModel.fromMap(Map<String, dynamic> data) {
+    return UserModel(
+      id: data['id'],
+      email: data['email'],
+      firstName: data['first_name'],
+      lastName: data['last_name'],
+      avatar: data['avatar'],
+    );
+  }
 }
 
 // *** DATA MENTAH STRING JSON TIDAK BISA DI AMBIL LANGSUNG ***

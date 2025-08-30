@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:latihan_json/models/users.dart';
 
 void main() {
   runApp(MyApp());
@@ -73,34 +74,6 @@ class HomePage extends StatelessWidget {
           }
         },
       ),
-    );
-  }
-}
-
-// * MODEL : DIGUNAKAN UNTUK JSON SERIALIZABLE DIMANA SAAT MENADPATKAN DATA DARI API KITA TIDAK LANGSUNG MEMANGGIL NYA MELAINKAN KITA
-//            MEMBUAT MODEL TERLEBIH DAHULU YANG ISINYA ADALAH HASIL DARI API YANG INGIN KITA GUNAKAN.
-class UserModel {
-  final int id;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final String avatar;
-
-  UserModel({
-    required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
-    required this.avatar,
-  });
-
-  factory UserModel.fromMap(Map<String, dynamic> data) {
-    return UserModel(
-      id: data['id'],
-      email: data['email'],
-      firstName: data['first_name'],
-      lastName: data['last_name'],
-      avatar: data['avatar'],
     );
   }
 }

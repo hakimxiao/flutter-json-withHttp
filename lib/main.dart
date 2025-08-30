@@ -4,7 +4,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:latihan_json/models/users.dart';
+import 'package:latihan_json/models/user.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,8 +35,8 @@ class HomePage extends StatelessWidget {
     } else {
       print(response.body);
       Map<String, dynamic> data =
-          (json.decode(response.body) as Map<String, dynamic>)['data'];
-      return UserModel.fromMap(data);
+          (json.decode(response.body) as Map<String, dynamic>);
+      return UserModel.fromJson(data);
     }
   }
 
@@ -57,14 +57,17 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage(snapshot.data!.avatar),
+                      backgroundImage: NetworkImage(snapshot.data!.data.avatar),
                       radius: 50,
                     ),
-                    Text('ID : ${snapshot.data!.id}'),
+                    Text('ID -> DATA : ${snapshot.data!.data.id}'),
                     Text(
-                      'NAME :${snapshot.data!.firstName} ${snapshot.data!.lastName}',
+                      'NAME -> DATA :${snapshot.data!.data.firstName} ${snapshot.data!.data.lastName}',
                     ),
-                    Text('EMAIL :${snapshot.data!.email}'),
+                    Text('EMAIL -> DATA :${snapshot.data!.data.email}'),
+                    SizedBox(height: 20),
+                    Text('URL -> SUPPORT :${snapshot.data!.support.url}'),
+                    Text('TEXT -> SUPPORT :${snapshot.data!.support.text}'),
                   ],
                 ),
               );

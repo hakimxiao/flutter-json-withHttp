@@ -33,7 +33,7 @@ class HomePage extends StatelessWidget {
       return null;
     } else {
       print(response.body);
-      return json.decode(response.body) as Map<String, dynamic>;
+      return (json.decode(response.body) as Map<String, dynamic>)['data'];
     }
   }
 
@@ -54,16 +54,14 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage(
-                        snapshot.data!['data']['avatar'],
-                      ),
+                      backgroundImage: NetworkImage(snapshot.data!['avatar']),
                       radius: 50,
                     ),
-                    Text('ID : ${snapshot.data!['data']['id']}'),
+                    Text('ID : ${snapshot.data!['id']}'),
                     Text(
-                      'NAME :${snapshot.data!['data']['first_name']} ${snapshot.data!['data']['last_name']}',
+                      'NAME :${snapshot.data!['first_name']} ${snapshot.data!['last_name']}',
                     ),
-                    Text('EMAIL :${snapshot.data!['data']['email']}'),
+                    Text('EMAIL :${snapshot.data!['email']}'),
                   ],
                 ),
               );

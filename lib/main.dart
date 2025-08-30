@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
 
-  Future<Map<String, dynamic>?> getDataUser() async {
+  Future<UserModel?> getDataUser() async {
     var response = await http.get(
       Uri.parse('https://reqres.in/api/users/2'),
       headers: {'x-api-key': 'reqres-free-v1'},
@@ -33,7 +33,15 @@ class HomePage extends StatelessWidget {
       return null;
     } else {
       print(response.body);
-      return (json.decode(response.body) as Map<String, dynamic>)['data'];
+      Map<String, dynamic> data =
+          (json.decode(response.body) as Map<String, dynamic>)['data'];
+      return UserModel(
+        id: data['id'],
+        email: data['email'],
+        firstName: data['firstName'],
+        lastName: data['lastName'],
+        avatar: data['avatar'],
+      );
     }
   }
 
@@ -41,7 +49,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Latihan JSON Serializable')),
-      body: FutureBuilder<Map<String, dynamic>?>(
+      body: FutureBuilder<UserModel?>(
         future: getDataUser(),
         // snapshot adalah tempat dari get data api
         builder: (context, snapshot) {
@@ -54,14 +62,14 @@ class HomePage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     CircleAvatar(
-                      backgroundImage: NetworkImage(snapshot.data!['avatar']),
+                      backgroundImage: NetworkImage(snapshot.data!.avatar),
                       radius: 50,
                     ),
-                    Text('ID : ${snapshot.data!['id']}'),
+                    Text('ID : ${snapshot.data!.id}'),
                     Text(
-                      'NAME :${snapshot.data!['first_name']} ${snapshot.data!['last_name']}',
+                      'NAME :${snapshot.data!.firstName} ${snapshot.data!.lastName}',
                     ),
-                    Text('EMAIL :${snapshot.data!['email']}'),
+                    Text('EMAIL :${snapshot.data!.email}'),
                   ],
                 ),
               );
@@ -73,6 +81,24 @@ class HomePage extends StatelessWidget {
       ),
     );
   }
+}
+
+// * MODEL : DIGUNAKAN UNTUK JSON SERIALIZABLE DIMANA SAAT MENADPATKAN DATA DARI API KITA TIDAK LANGSUNG MEMANGGIL NYA MELAINKAN KITA
+//            MEMBUAT MODEL TERLEBIH DAHULU YANG ISINYA ADALAH HASIL DARI API YANG INGIN KITA GUNAKAN.
+class UserModel {
+  final int id;
+  final String email;
+  final String firstName;
+  final String lastName;
+  final String avatar;
+
+  UserModel({
+    required this.id,
+    required this.email,
+    required this.firstName,
+    required this.lastName,
+    required this.avatar,
+  });
 }
 
 // *** DATA MENTAH STRING JSON TIDAK BISA DI AMBIL LANGSUNG ***
